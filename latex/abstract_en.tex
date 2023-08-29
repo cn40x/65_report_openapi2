@@ -2,4 +2,6 @@
 %% Abstract - English
 %%================================================
 
-This is an introduction to XeLaTex starting from the installation, basic typesetting, inserting equations and mathematical symbols. Later chapters also include the manipulation of figures and tables. The report also includes a basic tutorial for BibTeX. The format of this report conforms with the thesis format of Thammasat University.
+This project is created to provide convenience to educational personnel for checking programming assignment. This project is split into two REST APIs which are compile API for compiling the program and problem API for comparing between answer and file to be checked. \\
+\indent These two APIs have different operation. The compile API is responsible for the user who needs to compile a program by sending a request to compile API with source code and input (if any) then API will compile a program , send input to the program that been compiled and send output to be a response. On the other hand, the problem API is for comparing between two files by getting the same input then compare between output of each file after that the result will be a response of the API. \\
+\indent This project uses Go as main computer language and is developed with Gin framework and can be deployed using Docker platform so it can be used in many opportunities.

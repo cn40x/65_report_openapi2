@@ -1,8 +1,129 @@
 %%================================================
 %% Appendix B
 %%================================================
-\chapter{Example Appendix}
+\chapter{OpenAPI ไฟล์}
 \label{appB}
 
-This is an example appendix. This is an example appendix. This is an example appendix. This is an example appendix. This is an example appendix. This is an example appendix. This is an example appendix. This is an example appendix. This is an example appendix. This is an example appendix.
 
+
+\section{OpenAPI Specification}
+OpenAPI Specification เป็นมาตรฐานในการอธิบาย REST API ที่สร้างมาเพื่อให้มนุษย์และเครื่อง
+คอมพิวเตอร์สามารถอ่านได้
+\subsection{ไฟล์ OpenAPI Specification ของ RET API ทั้ง 2 ตัว (YAML format)}
+
+\begin{lstlisting}
+openapi: 3.0.0
+info:
+  title: Openapi for compare program resource
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8081'
+paths:
+  /compile:
+    parameters: []
+    get:
+      summary: Get information of api
+      tags: []
+      responses:
+        '200':
+          description: 'get information of sourcefile '
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+              examples:
+                example-1:
+                  value:
+                    - Source:
+                        Filename: test1.py
+                        Header:
+                          Content-Disposition:
+                            - form-data; name="source"; filename="test1.py"
+                          Content-Type:
+                            - application/octet-stream
+                        Size: 14
+                      Language: python
+                      Input: ''
+        '404':
+          description: Not Found
+      description: get information of api that send through post compile
+    post:
+      summary: Compile file
+      operationId: post-compile
+      responses:
+        '200':
+          description: show output of the program
+        '400':
+          description: Bad Request
+      description: compile python and java program and show output of program
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                source:
+                  type: string
+                  format: binary
+                  description: the file that needs to be compile
+                language:
+                  type: string
+                  description: specific language
+                input:
+                  type: string
+                  description: input of program
+            examples:
+              example-1:
+                value:
+                  source: file1.py
+                  language: python
+                  input: 1\n2\n3
+  /problem:
+    post:
+      summary: compare output of programs
+      operationId: post-problem
+      responses:
+        '200':
+          description: show result of comparison (Boolean)
+        '400':
+          description: Missing Required Information
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                problem_file:
+                  type: string
+                  format: binary
+                  description: the file that needs to be compiled and compare output with output of answer_file.
+                answer_file:
+                  type: string
+                  format: binary
+                  description: the answer file that needs to be compiled and compare output with output of problem_file.
+                language:
+                  type: string
+                  description: specific language
+                input:
+                  type: string
+                  description: input of program
+              required:
+                - problem_file
+                - answer_file
+                - language
+                - input
+            examples:
+              example-1:
+                value:
+                  problem_file: file1.py
+                  answer_file: file2.py
+                  language: python
+                  input: 1\n2\n3
+        description: Post the necessary fields for the API to compare output of programs.
+      description: compile python and java program then compare output of programs.
+    parameters: []
+components:
+  schemas: {}
+
+\end{lstlisting}
